@@ -48,7 +48,6 @@ flycheck_*.el
 # Icon must end with two \r
 Icon
 
-
 # Thumbnails
 ._*
 
@@ -72,6 +71,10 @@ Temporary Items
 
 # iCloud generated files
 *.icloud
+
+### NodeJS ###
+
+node_modules
 
 ### Python ###
 
@@ -130,3 +133,4 @@ venv.bak/
 
 # ruff
 .ruff_cache/
+
