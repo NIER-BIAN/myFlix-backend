@@ -25,22 +25,50 @@ const accessLogStream = fs.createWriteStream(
 app.use(express.static('public'));
 
 // =============
-// topBooks
+// topFilms
 // =============
 
-let topBooks = [
+let topFilms = [
     {
-	title: 'Harry Potter and the Sorcerer\'s Stone',
-	author: 'J.K. Rowling'
+	title: 'Amélie',
+	director: 'Jean-Pierre Jeunet'
     },
     {
-	title: 'Lord of the Rings',
-	author: 'J.R.R. Tolkien'
+	title: 'Interstellar',
+	director: 'Christopher Nolan'
     },
     {
-	title: 'Twilight',
-	author: 'Stephanie Meyer'
-    }
+	title: 'When Marnie Was There',
+	director: 'Hiromasa Yonebayashi'
+    },
+    {
+	title: 'Contact',
+	director: 'Robert Zemeckis'
+    },
+    {
+	title: '(500) Days of Summer',
+	director: 'Marc Webb'
+    },
+    {
+	title: 'Spirited Away',
+	director: 'Miyazaki Hayao'
+    },
+    {
+	title: 'The Martian',
+	director: 'Ridley Scott'
+    },
+    {
+	title: 'Whisper of the Heart',
+	director: 'Yoshifumi Kondō'
+    },
+    {
+	title: 'The Lion King',
+	director: 'Rob Minkoff & Rogers Allers'
+    },
+    {
+	title: 'Titanic',
+	director: 'James Cameron'
+    },
 ];
 
 // =============
@@ -87,8 +115,8 @@ app.get('/', (req, res) => {
 
 // but w.o. having to specify additional information sent alongside  response
 
-app.get('/topBooks', (req, res) => {
-    res.json(topBooks);
+app.get('/movies', (req, res) => {
+    res.json(topFilms);
 });
 
 // ==============

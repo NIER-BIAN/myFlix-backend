@@ -1,0 +1,2 @@
+::ffff:127.0.0.1 - - [04/Jun/2024:16:48:27 +0000] "GET /topBooks HTTP/1.1" 200 179 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
+::ffff:127.0.0.1 - - [04/Jun/2024:17:02:58 +0000] "GET /movies HTTP/1.1" 200 563 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
