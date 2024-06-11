@@ -1,1 +1,163 @@
-this is documentation.html
+<!DOCTYPE html>
+<html>
+  <head>
+    
+    <title>API Documentation</title>
+    
+    <style>
+      table {
+          border-collapse: collapse;
+      }
+      table, th, td {
+	  border: 1px solid black;
+          padding: 8px;
+	  margin: 0 20px 0 20px;
+      }
+      th {
+          background-color: #f2f2f2;
+      }
+    </style>
+
+  </head>
+
+  <body>
+    <h1>API Documentation</h1>
+    <table>
+        <tr>
+            <th>Business Logic</th>
+            <th>URL</th>
+            <th>HTTP Method</th>
+            <th>Request body data format</th>
+            <th>Response body data format</th>
+        </tr>
+        <tr>
+            <td>Create a new user</td>
+            <td>/users</td>
+            <td>POST</td>
+            <td>
+	      <code>
+		{
+		"name": "Charlie"
+		}	
+	      </code>
+            </td>
+            <td>
+              <code>
+		{
+		"id": "3",
+		"name": "Charlie",
+		"favouriteMovies": []
+		}
+	      </code>
+            </td>
+	</tr>
+        <tr>
+            <td>Get a list of all movies</td>
+            <td>/movies</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>A JSON object holding data about all movies.</td>
+        </tr>
+        <tr>
+            <td>Get data about a single movie by title</td>
+            <td>
+	      /movies/Example%20Movie%20Title<br/><br/>
+	      e.g. /movies/Amélie
+	    </td>
+            <td>GET</td>
+            <td>None</td>
+            <td>A JSON object holding all data about the target movie "Amélie".
+            </td>
+        </tr>
+        <tr>
+            <td>Get data about a genre by name of genre</td>
+            <td>
+	      /movies/genre/Example%20Genre<br/><br/>
+	      e.g. /movies/genre/Romantic%20Comedy
+	    </td>
+            <td>GET</td>
+            <td>None</td>
+            <td>
+	      <code>
+		{<br/>
+		"name": "Romantic Comedy",<br/>
+		"description": "Romantic comedies are a subgenre of comedy movies that focus on the romantic relationships between characters. They often involve humorous situations and light-hearted storytelling."<br/>
+		}
+	      </code>
+            </td>
+        </tr>
+        <tr>
+            <td>Get data about a director by name</td>
+            <td>
+	      /movies/directors/Name%20Of%20Director<br/><br/>
+	      e.g. /movies/directors/Jean-Pierre%20Jeunet
+	    </td>
+            <td>GET</td>
+            <td>None</td>
+            <td>
+	      <code>
+		{<br/>
+		"name": "Jean-Pierre Jeunet",<br/>
+		"bio": "Jean-Pierre Jeunet is a French filmdirector known for his distinctive visual style. He gained international acclaim for directing the film 'Amélie.'",<br/>
+		"dob": "03/09/1953"<br/>
+		}
+                </code>
+            </td>
+        </tr>
+        <tr>
+            <td>Update user information (username)</td>
+            <td>
+	      /users/{UserId}<br/><br/>
+	      e.g. /users/1
+	    </td>
+            <td>PUT</td>
+            <td>
+	      <code>
+		{
+		"name": "Denise"
+		}
+	      </code>
+            </td>
+            <td>
+              <code>
+		{
+		"id": "1",
+		"name": "Denise",
+		"favouriteMovies": []
+		}
+	      </code>
+            </td>
+        </tr>
+        <tr>
+            <td>Add a movie to a user's favorite movies</td>
+            <td>
+	      /users/{UserId}/Example%20Movie%20Title}<br/><br/>
+	      e.g. /users/2/Amélie
+	    </td>
+            <td>PUT</td>
+	    <td>None</td>
+            <td>A text messeage indicating whether the movie was successfully added.</td>
+        </tr>
+        <tr>
+            <td>Remove a movie from a user's favorite movies</td>
+            <td>
+	      /users/{UserId}/Example%20Movie%20Title}<br/><br/>
+	      e.g. /users/2/Amélie
+	    </td>
+            <td>DELETE</td>
+            <td>None</td>
+            <td>A text messeage indicating whether the movie was successfully removed.</td>
+        </tr>
+        <tr>
+            <td>Deregister a user</td>
+            <td>
+	      /users/{UserId}}<br/><br/>
+	      e.g. /users/2
+	    </td>
+            <td>DELETE</td>
+            <td>None</td>
+            <td>A text messeage indicating whether the user was successfully removed</td>
+        </tr>
+    </table>
+</body>
+</html>
