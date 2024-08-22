@@ -37,7 +37,7 @@
             <td>
 	      <code>
 		{
-		"name": "Charlie"
+		"username": "Charlie"
 		}	
 	      </code>
             </td>
@@ -45,7 +45,7 @@
               <code>
 		{
 		"id": "3",
-		"name": "Charlie",
+		"username": "Charlie",
 		"favouriteMovies": []
 		}
 	      </code>
@@ -107,22 +107,22 @@
         <tr>
             <td>Update user information (username)</td>
             <td>
-	      /users/{UserId}<br/><br/>
-	      e.g. /users/1
+	      /users/{username}<br/><br/>
+	      e.g. /users/Abraham
 	    </td>
             <td>PUT</td>
             <td>
 	      <code>
 		{
-		"name": "Denise"
+		"username": "Denise"
 		}
 	      </code>
             </td>
             <td>
               <code>
 		{
-		"id": "1",
-		"name": "Denise",
+		_id: ObjectId('6685793cf67a085dc3261cde'),
+		"username": "Denise",
 		"favouriteMovies": []
 		}
 	      </code>
@@ -131,28 +131,28 @@
         <tr>
             <td>Add a movie to a user's favorite movies</td>
             <td>
-	      /users/{UserId}/Example%20Movie%20Title}<br/><br/>
-	      e.g. /users/2/Amélie
+	      /users/{username}/movies/{Example%20Movie%20Id}<br/><br/>
+	      e.g. /users/Abraham/6685570bf67a085dc3261cd7
 	    </td>
-            <td>PUT</td>
+            <td>POST</td>
 	    <td>None</td>
-            <td>A text messeage indicating whether the movie was successfully added.</td>
+            <td>A JSON object holding updated info about the user and their favourite movies.</td>
         </tr>
         <tr>
             <td>Remove a movie from a user's favorite movies</td>
             <td>
-	      /users/{UserId}/Example%20Movie%20Title}<br/><br/>
-	      e.g. /users/2/Amélie
+	      /users/{username}/movies/{Example%20Movie%20Id}}<br/><br/>
+	      e.g. /users/Bessie/6685570bf67a085dc3261cd7
 	    </td>
             <td>DELETE</td>
             <td>None</td>
-            <td>A text messeage indicating whether the movie was successfully removed.</td>
+            <td>A JSON object holding updated info about the user and their favourite movies.</td>
         </tr>
         <tr>
             <td>Deregister a user</td>
             <td>
-	      /users/{UserId}}<br/><br/>
-	      e.g. /users/2
+	      /users/{username}}<br/><br/>
+	      e.g. /users/Charles
 	    </td>
             <td>DELETE</td>
             <td>None</td>
