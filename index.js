@@ -1,5 +1,11 @@
 // ==================================================================
 
+// index requires auth, passport, and models
+// auth requires passport
+// passport requires models
+
+// ==================================================================
+
 // Pre-amble
 
 // ==================================================================
@@ -52,17 +58,6 @@ const accessLogStream = fs.createWriteStream(
 
 // ==================================================================
 
-// JSON & URLS:
-// parses incoming req bodies in JSON format and saves to req.body
-// used in POST reqs to get info not stored in the req URL
-app.use(express.json())
-// extended: true  allows nested objects
-app.use(express.urlencoded({ extended: true }));
-
-// PUBLIC: URL/path at which static files are exposed
-app.use(express.static('public'));
-
-
 // LOGGING:
 app.use(morgan(
     'combined',                // write w/ Morgan’s “combined” format
@@ -77,6 +72,24 @@ let requestTime = (req, res, next) => {
 // requestTime() etc should now be fired with every request to requests to all URLs
 app.use(requestTime);
 
+// JSON & URL PARSING:
+// parses incoming req bodies in JSON format and saves to req.body
+// used in POST reqs to get info not stored in the req URL
+app.use(express.json())
+// extended: true  allows nested objects
+app.use(express.urlencoded({ extended: true }));
+
+// USER AUTH:
+// the app object represents the Express application
+// passing the app object during the require call makes it available within auth.js.
+// auth.js exports a function that sets up a route handler for POST requests to the "/login" endpoint.
+let auth = require('./auth')(app);
+const passport = require('passport');
+require('./passport');
+
+// STATIC FILES:
+// URL/path at which static files are exposed
+app.use(express.static('public'));
 
 // ==================================================================
 
@@ -119,7 +132,8 @@ app.post('/users', async (req, res) => {
 			// collect info from the HTTP request body
 			// Mongoose translate Node.js code into MongoDB command
 			// which in turn populates the Users document
-			username: req.body.username
+			username: req.body.username,
+			password: req.body.password,
 		    })
 
 		    // return "user”, as in, the document that was just added
@@ -139,7 +153,14 @@ app.post('/users', async (req, res) => {
 });
 
 // Allow users to add a movie to their list of favorites
-app.post('/users/:username/movies/:movieId', async (req, res) => {
+// Modifying user info would in this way require a JWT from the client for authorisation
+app.post('/users/:username/movies/:movieId', passport.authenticate('jwt', { session: false }), async (req, res) => {
+
+    // req.login in auth.js establish a login session and set up the user object on req.user.
+    if(req.user.username !== req.params.username){
+        return res.status(400).send(`You have to be logged in as ${req.params.username} to make changes to their list of favourite movies. Permission denied`);
+    }
+    
     await Users.findOneAndUpdate(
 	{ username: req.params.username },
 	// $push adds a new movie ID to the end of the FavoriteMovies array
@@ -158,7 +179,8 @@ app.post('/users/:username/movies/:movieId', async (req, res) => {
 // READ
 
 // Return a list of ALL users
-app.get('/users', async (req, res) => {
+// Search function would require a JWT from the client
+app.get('/users', passport.authenticate('jwt', { session: false }), async (req, res) => {
     // note: find() function in Mongoose grabs data on ALL documents
     await Users.find()
 	.then((users) => {
@@ -171,7 +193,8 @@ app.get('/users', async (req, res) => {
 });
 
 // Return data about a single user by username
-app.get('/users/:username', async (req, res) => {
+// Search function would require a JWT from the client
+app.get('/users/:username', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Users.findOne({ username: req.params.username })
 	.then((user) => {
 	    res.json(user);
@@ -196,7 +219,8 @@ app.get('/movies', async (req, res) => {
 });
 
 // Return data about a single movie by title;
-app.get('/movies/:searchTermTitle', async (req, res) => {
+// Search function would require a JWT from the client
+app.get('/movies/:searchTermTitle', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.findOne({ "title": req.params.searchTermTitle })
 	.then((movie) => {
 	    res.json(movie);
@@ -208,7 +232,8 @@ app.get('/movies/:searchTermTitle', async (req, res) => {
 });
 
 // Return data about a genre by name (e.g., “Thriller”);
-app.get('/movies/genre/:searchTermGenre', async (req, res) => {
+// Search function would require a JWT from the client
+app.get('/movies/genre/:searchTermGenre', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.find({ "genre.name" : req.params.searchTermGenre })
 	.then((movie) => {
 	    res.json(movie);
@@ -219,9 +244,9 @@ app.get('/movies/genre/:searchTermGenre', async (req, res) => {
 	});
 });
 
-
 // Return data about a director by name;
-app.get('/movies/directors/:searchTermDirector', async (req, res) => {
+// Search function would require a JWT from the client
+app.get('/movies/directors/:searchTermDirector', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.find({ "director.name" : req.params.searchTermDirector })
 	.then((movies) => {
 	    res.json(movies);
@@ -236,7 +261,13 @@ app.get('/movies/directors/:searchTermDirector', async (req, res) => {
 // UPDATE
 
 // Allow users to update their user info (username)
-app.put('/users/:username', async (req, res) => {
+// Modifying user info would in this way require a JWT from the client for authorisation
+app.put('/users/:username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+
+    // req.login in auth.js establish a login session and set up the user object on req.user.
+    if(req.user.username !== req.params.username){
+        return res.status(400).send(`You have to be logged in as ${req.params.username} to change their account info. Permission denied`);
+    }
 
     await Users.findOneAndUpdate(
 	// condition
@@ -244,7 +275,8 @@ app.put('/users/:username', async (req, res) => {
 	{ $set:
 	  // object that specs which fields to update and what to update  to
 	  {
-	      username: req.body.username
+	      username: req.body.username,
+	      password: req.body.password,
 	  }
 	},
 
@@ -266,7 +298,14 @@ app.put('/users/:username', async (req, res) => {
 // DELETE
 
 // Allow users to remove a movie to their list of favorites
-app.delete('/users/:username/movies/:movieID', async (req, res) => {
+// Modifying user info in this way would require a JWT from the client for authorisation
+app.delete('/users/:username/movies/:movieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    
+    // req.login in auth.js establish a login session and set up the user object on req.user.
+    if(req.user.username !== req.params.username){
+	return res.status(400).send(`You have to be logged in as ${req.params.username} to make changes to their list of favourite movies. Permission denied`);
+    }
+    
     await Users.findOneAndUpdate(
 	{ username: req.params.username },
 	// $pull removes a movie ID from the FavoriteMovies array
@@ -282,7 +321,14 @@ app.delete('/users/:username/movies/:movieID', async (req, res) => {
 });
 
 // Allow existing users to deregister
-app.delete('/users/:username', async (req, res) => {
+// Modifying user info in this way would require a JWT from the client for authorisation
+app.delete('/users/:username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+
+    // req.login in auth.js establish a login session and set up the user object on req.user.
+    if(req.user.username !== req.params.username){
+        return res.status(400).send(`You have to be logged in as ${req.params.username} to deregister their account. Permission denied`);
+    }
+    
     await Users.findOneAndDelete({ username: req.params.username })
 	.then((user) => {
 	    if (!user) {

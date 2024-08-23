@@ -24,6 +24,7 @@ let movieSchema = mongoose.Schema(
 let userSchema = mongoose.Schema(
     {
 	username: {type: String, required: true},
+	password: {type: String, required: true},
 	// FavoriteMovies key within userSchema contains an array of IDs
 	// that each refer to a document within the "db.movies" collection.
 	favoriteMovies: [
