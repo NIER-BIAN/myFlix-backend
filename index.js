@@ -153,10 +153,10 @@ app.post('/users', async (req, res) => {
 });
 
 // Allow users to add a movie to their list of favorites
-// Modifying user info would in this way require a JWT from the client for authorisation
-app.post('/users/:username/movies/:movieId', passport.authenticate('jwt', { session: false }), async (req, res) => {
+// Modifying user info in this way would require a JWT from the client for authorisation
+app.patch('/users/:username/movies/:movieId', passport.authenticate('jwt', { session: false }), async (req, res) => {
 
-    // req.login in auth.js establish a login session and set up the user object on req.user.
+    // req.login in auth.js establishes a login session and set up the user object on req.user.
     if(req.user.username !== req.params.username){
         return res.status(400).send(`You have to be logged in as ${req.params.username} to make changes to their list of favourite movies. Permission denied`);
     }
@@ -164,7 +164,7 @@ app.post('/users/:username/movies/:movieId', passport.authenticate('jwt', { sess
     await Users.findOneAndUpdate(
 	{ username: req.params.username },
 	// $push adds a new movie ID to the end of the FavoriteMovies array
-	{ $push: { FavoriteMovies: req.params.movieId } },
+	{ $push: { favoriteMovies: req.params.movieId } },
 	{ new: true })
 	.then((updatedUser) => {
 	    res.json(updatedUser);
@@ -261,10 +261,10 @@ app.get('/movies/directors/:searchTermDirector', passport.authenticate('jwt', { 
 // UPDATE
 
 // Allow users to update their user info (username)
-// Modifying user info would in this way require a JWT from the client for authorisation
+// Modifying user info in this way would require a JWT from the client for authorisation
 app.put('/users/:username', passport.authenticate('jwt', { session: false }), async (req, res) => {
 
-    // req.login in auth.js establish a login session and set up the user object on req.user.
+    // req.login in auth.js establishes a login session and set up the user object on req.user.
     if(req.user.username !== req.params.username){
         return res.status(400).send(`You have to be logged in as ${req.params.username} to change their account info. Permission denied`);
     }
@@ -301,7 +301,7 @@ app.put('/users/:username', passport.authenticate('jwt', { session: false }), as
 // Modifying user info in this way would require a JWT from the client for authorisation
 app.delete('/users/:username/movies/:movieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
     
-    // req.login in auth.js establish a login session and set up the user object on req.user.
+    // req.login in auth.js establishes a login session and set up the user object on req.user.
     if(req.user.username !== req.params.username){
 	return res.status(400).send(`You have to be logged in as ${req.params.username} to make changes to their list of favourite movies. Permission denied`);
     }

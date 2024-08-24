@@ -1,5 +1,7 @@
 //
-// This document contains passport strategies configurations
+// This document contains passport strategy configs. It sets up:
+// (1) a new instance of localStrategy for basic http auth w/ username and password
+// (2) a new instance of jwtStrategy for JWT-based auth
 //
 
 // ==================================================================
@@ -34,8 +36,8 @@ const extractJWT = require('passport-jwt').ExtractJwt;
 // ==================================================================
 
 // new instance of localStrategy for basic http auth w/ username and password
-// 1st arg: obj that contains username & password fields
-// 2nd arg: asyn func that will be called after to look for matches and handle errors
+// 1st arg: obj that contains configuration options for the local strategy
+// 2nd arg: asyn func that will be called to look for matches and handle outcomes ofthe lookup
 passport.use(
     
     new localStrategy(
@@ -43,6 +45,8 @@ passport.use(
 	// 1st arg:
 	// takes a username and password from the request body
 	{
+	    // Key: usernameField / passwordField = predefined
+	    // Value: anything goes but has to match the name of the field that holds the un / pw in incoming request body.
 	    usernameField: 'username',
 	    passwordField: 'password',
 	},
@@ -60,12 +64,13 @@ passport.use(
 		    if (!user) {
 			console.log(`Incorrect username. User ${username} cannot be found.`);
 			return callback(null, // indicating no err
-					false,
+					false, // but authentication failed.
 					{message: 'Incorrect username or password.',}
 				       )};
 
-		    // user found, callback function (login endpoint) exectues
-		    console.log('User found. Callback function (login endpoint) will exectue');
+		    // user found
+		    console.log('User found.')
+		    console.log('Now executing callback function (login endpoint).');
 		    return callback(null, // indicating no err
 				    user);
 		})
@@ -79,6 +84,7 @@ passport.use(
 	}
     )
 );
+
 
 // new instance of jwtStrategy for JWT-based auth
 // 1st arg: obj that contains configuration options for the JWT strategy
@@ -94,14 +100,17 @@ passport.use(
 	    // In this case, it's from the req header w/ fromAuthHeaderAsBearerToken()
 	    jwtFromRequest: extractJWT.fromAuthHeaderAsBearerToken(),
 	    
-	    //"secret" key to verify the signature of the JWT
+	    // **Verifying** info of the token: its secret key /  signature
+	    // Normally these are: encrypted, in secure storage, protected with restricted access,
+	    // sufficiently complex to prevent brute force attacks, periodically rotated
+	    // and NEVER HARDCODED
 	    secretOrKey: 'your_jwt_secret',
 	},
 
 	// 2nd arg:
-	// find a user based on the _id field extracted from the JWT payload
-	// The "payload" is the claim / content of the JWT itself
-	// who the user is, what they should have access to, and for how long
+	// **Identifying** info of the token: its  "payload" / claim
+	// as to who the user is, what they should have access to, and for how long
+	// so we can find a user based on jwtPayload._id
 	async (jwtPayload, callback) => {
 	    return await Users.findById(jwtPayload._id)
 

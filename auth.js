@@ -1,8 +1,11 @@
 //
-// This document contains authentication logic
-// and exports a function that takes a router object as an argument
+// This document sets up authentication logic for
+// (1) Logging in a user via basic http auth w/ username and password
+// (2) Assiging a unique access token to user via JWT-based auth
+//
+// This document also exports a function that takes a router obj as arg
 // required in index.js as let auth = require('./auth')(app);
-// which makes the app obj / the express application available within auth.js 
+// i.e. the app obj / the express application is available in auth.js 
 //
 
 // ==================================================================
@@ -13,6 +16,9 @@
 require('./passport');
 
 // jwtSecret that matches secretOrKey in jwtStrategy instance in passport.js
+// Normally these are: encrypted, in secure storage, protected with restricted access,
+// sufficiently complex to prevent brute force attacks, periodically rotated
+// and NEVER HARDCODED
 const jwtSecret = 'your_jwt_secret';
 
 // ------------------------------------------------------------------
@@ -37,6 +43,8 @@ const jwt = require('jsonwebtoken');
 // to be called by exported function
 let generateJWTToken = (user) => {
     
+    // takes user as arg and generates a JWT token for that user.
+    // the jwt.sign method signs payload / claim of the token
     return jwt.sign(user, jwtSecret, {
 
 	// the username you’re encoding in the JWT
@@ -57,9 +65,10 @@ module.exports = (router) => {
     // sets up a route handler for POST requests to the "/login" endpoint
     router.post('/login', (req, res) => {
 
-	// LocalStrategy used to check that the username and pw in the body exist in db
+	// LocalStrategy used to check that the un and pw in the body exist in db
 	// passport.authenticate(strategy, options, callback) 
 	passport.authenticate(
+	    // remember passport-local is commonly used for basic and session-based auth
 	    'local',                  // strategy
 	    { session: false },       // options
 	    (error, user, info) => {  // callback
@@ -82,16 +91,12 @@ module.exports = (router) => {
 			res.send(error);
 		    }
 
-		    // user exists
-		    // use generateJWTToken() defined above
-		    // to create a JWT based on username and password
-
+		    // user exists and a JWT is made
 		    let token = generateJWTToken(user.toJSON());
 		    // return token to client
 		    // ES6 shorthand for res.json({ user: user, token: token })
 		    return res.json({ user, token });
 		});
-
 
 		// this line immediately invokes the passport.authenticate middleware function
 		// with the req and res objects as arguments
