@@ -3,6 +3,9 @@
 // (1) Logging in a user via basic http auth w/ username and password
 // (2) Assiging a unique access token to user via JWT-based auth
 //
+// All auth logic (endpoint and an immediately invoked passport.authenticate middleware function)
+// are encapsulate within this document then integrated into the main application flow in index.js.
+//
 // This document also exports a function that takes a router obj as arg
 // required in index.js as let auth = require('./auth')(app);
 // i.e. the app obj / the express application is available in auth.js 
@@ -65,6 +68,7 @@ module.exports = (router) => {
     // sets up a route handler for POST requests to the "/login" endpoint
     router.post('/login', (req, res) => {
 
+	// middleware function (immediately invoked)
 	// LocalStrategy used to check that the un and pw in the body exist in db
 	// passport.authenticate(strategy, options, callback) 
 	passport.authenticate(
@@ -81,7 +85,7 @@ module.exports = (router) => {
 		    });
 		}
 
-		// If user found, log them in.
+		// if user found, log them in.
 		req.login(user, { session: false }, (error) => {
 		    // The login method is added to the req object by Passport
 		    // It is exposed if Passport is configured w. strategy that supports login

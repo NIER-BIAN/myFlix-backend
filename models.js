@@ -2,6 +2,8 @@
 // This document exports an object containing Mongoose models for movies and users.
 //
 
+const bcrypt = require('bcrypt');
+
 const mongoose = require('mongoose');
 
 // define schema for docs in 'movies' collection
@@ -35,6 +37,17 @@ let userSchema = mongoose.Schema(
 	]
     }
 );
+
+// hash submitted passwords when registering users
+userSchema.statics.hashPassword = (inputPassword) => {
+    return bcrypt.hashSync(inputPassword, 10);
+};
+
+// compares submitted hashed passwords with the hashed passwords in db
+// when loging in users -----> needs access to this obj (user)
+userSchema.methods.validatePassword = function(inputPassword) {
+    return bcrypt.compareSync(inputPassword, this.password);
+};
 
 // create models that use the schemas defined
 let Movie = mongoose.model('Movie', movieSchema);

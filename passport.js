@@ -54,22 +54,30 @@ passport.use(
 	// 2nd arg:
 	// Mongoose checks db for user
 	async (username, password, callback) => {
-	    console.log(`Looking for user ${username} with password "${password}"`);
+	    console.log(`Looking for user ${username}.`);
 	    // **NOTE** that the password doesn't get checked here
 	    await Users.findOne({ username: username })
 	    
 		.then((user) => {
 
-		    // user not found
+		    // fail authentification in case of user not found
 		    if (!user) {
 			console.log(`Incorrect username. User ${username} cannot be found.`);
-			return callback(null, // indicating no err
+			return callback(null,  // indicating no err
 					false, // but authentication failed.
-					{message: 'Incorrect username or password.',}
+					{message: 'Incorrect username.'}
 				       )};
 
-		    // user found
-		    console.log('User found.')
+		    // fail authentification in case of wrong passwords
+		    if (!user.validatePassword(password)) {
+			console.log('Incorrect password.');
+			return callback(null,  // indicating no err
+					false, // but authentication failed.
+					{message: 'Incorrect password.'}
+				       )};
+
+		    // pass authentification
+		    console.log('User found and password correct.')
 		    console.log('Now executing callback function (login endpoint).');
 		    return callback(null, // indicating no err
 				    user);
