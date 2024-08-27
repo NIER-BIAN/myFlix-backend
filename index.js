@@ -440,6 +440,21 @@ app.use((err, req, res, next) => {
 
 // ==================================================================
 
-app.listen(8080, () => {
-    console.log('Your app is listening on port 8080.');
+// Dev:
+// app.listen(8080, () => {
+//    console.log('Your app is listening on port 8080.');
+//});
+
+// looks for pre-configured port no. in the env variable process.env.PORT
+// if nothing is found, sets  port to a certain port number.
+
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0',() => {
+    console.log('Listening on Port ' + port);
 });
+
+// server listening on all available network interfaces (0.0.0.0)
+// i.e. it will accept connections from any device that can reach the server
+// or are connected to the network where the server is running.
+// it's like setting up a phone line on a specific number (port)
+// '0.0.0.0' means that the server is willing to answer calls from anyone who knows the number (port), no matter where they are calling from.
