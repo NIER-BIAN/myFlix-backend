@@ -50,7 +50,8 @@ mongoose.connect(
     {
  	// ensure that Mongoose uses the latest MongoDB Node.js driver features
 	useNewUrlParser: true,
-	useUnifiedTopology: true    }
+	useUnifiedTopology: true
+    }
 );
 
 
