@@ -1,0 +1,6 @@
+{"_id":{"$oid":"6685793cf67a085dc3261cde"},"username":"Abraham","password":["AngolaAbraham1"],"favoriteMovies":[{"$oid":"6685570bf67a085dc3261cdc"},{"$oid":"6685570bf67a085dc3261cdb"},{"$oid":"6685570bf67a085dc3261cd5"},{"$oid":"6685570bf67a085dc3261cd8"},{"$oid":"6685570bf67a085dc3261cd6"}]}
+{"_id":{"$oid":"6685793cf67a085dc3261cdf"},"username":"Bessie","password":["BosniaBessie2"],"favoriteMovies":[{"$oid":"6685570bf67a085dc3261cda"},{"$oid":"6685570bf67a085dc3261cdd"}]}
+{"_id":{"$oid":"6685793cf67a085dc3261ce0"},"username":"Charles","password":["ChinaCharles3"],"favoriteMovies":[{"$oid":"6685570bf67a085dc3261cd8"},{"$oid":"6685570bf67a085dc3261cdb"},{"$oid":"6685570bf67a085dc3261cda"},{"$oid":"6685570bf67a085dc3261cd6"}]}
+{"_id":{"$oid":"6685793cf67a085dc3261ce1"},"username":"Daniel","password":["DenmarkDaniel4"],"favoriteMovies":[{"$oid":"6685570bf67a085dc3261cd7"},{"$oid":"6685570bf67a085dc3261cd8"}]}
+{"_id":{"$oid":"66c8a60d11a2f46a9d4ce7f7"},"username":"Evelyn","password":"EnglandEvelyn5","favoriteMovies":[],"__v":0}
+{"_id":{"$oid":"66ce0a6a10e8ebd4210ffb21"},"username":"FeyWithPasswordFinlandFey6","password":"$2b$10$2mnv2mZfP6RXIYadPPKgSuuUu7GAmKwfYEcYhXWW/dxMPgcImoBo.","favoriteMovies":[],"__v":0}
