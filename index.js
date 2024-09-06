@@ -404,7 +404,7 @@ app.delete('/users/:username/movies/:movieID', passport.authenticate('jwt', { se
     await Users.findOneAndUpdate(
 	{ username: req.params.username },
 	// $pull removes a movie ID from the FavoriteMovies array
-	{ $pull: { FavoriteMovies: req.params.movieID } },
+	{ $pull: { favoriteMovies: req.params.movieID } },
 	{ new: true })
 	.then((updatedUser) => {
 	    res.json(updatedUser);
