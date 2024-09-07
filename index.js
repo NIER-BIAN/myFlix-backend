@@ -18,6 +18,7 @@ const fs = require('fs'),
 const express = require('express'),
       morgan = require('morgan'),
       uuid = require('uuid'),
+      bcrypt = require('bcrypt'),
       { check, validationResult } = require('express-validator');
 
 // imports: mongoose and local
@@ -33,15 +34,16 @@ const Users = Models.User;
 // mongoose can now perform CRUD operations on the docs in myFlixDB from within the REST API
 
 // Dev:
-// mongoose.connect(
-//     'mongodb://localhost:27017/myFlixDB',
-//    {
-// 	// ensure that Mongoose uses the latest MongoDB Node.js driver features
-//  	useNewUrlParser: true,
-// 	useUnifiedTopology: true
-//    }
-// );
+mongoose.connect(
+     'mongodb://localhost:27017/myFlixDB',
+    {
+ 	// ensure that Mongoose uses the latest MongoDB Node.js driver features
+  	useNewUrlParser: true,
+ 	useUnifiedTopology: true
+    }
+ );
 
+/*
 // connect API on Heroku to mongoDB on Atlas
 mongoose.connect(
     // this is set up as ans environment var on Heroku (see settings --> config vars)
@@ -52,7 +54,7 @@ mongoose.connect(
 	useNewUrlParser: true,
 	useUnifiedTopology: true
     }
-);
+);*/
 
 
 //---------------------------
@@ -363,6 +365,9 @@ app.put('/users/:username',
 	    if (!errors.isEmpty()) {
 		return res.status(422).json({ errors: errors.array() });
 	    }
+
+	    // hash submitted new password
+	    hashedNewPassword = bcrypt.hashSync(req.body.password, 10);
     
 	    await Users.findOneAndUpdate(
 
@@ -372,7 +377,7 @@ app.put('/users/:username',
 		  // object that specs which fields to update and what to update  to
 		  {
 		      username: req.body.username,
-		      password: req.body.password,
+		      password: hashedNewPassword,
 		  }
 		},
 	
