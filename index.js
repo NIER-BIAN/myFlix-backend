@@ -34,6 +34,7 @@ const Users = Models.User;
 // mongoose can now perform CRUD operations on the docs in myFlixDB from within the REST API
 
 // Dev:
+/*
 mongoose.connect(
      'mongodb://localhost:27017/myFlixDB',
     {
@@ -42,8 +43,8 @@ mongoose.connect(
  	useUnifiedTopology: true
     }
  );
+*/
 
-/*
 // connect API on Heroku to mongoDB on Atlas
 mongoose.connect(
     // this is set up as ans environment var on Heroku (see settings --> config vars)
@@ -54,7 +55,7 @@ mongoose.connect(
 	useNewUrlParser: true,
 	useUnifiedTopology: true
     }
-);*/
+);
 
 
 //---------------------------
