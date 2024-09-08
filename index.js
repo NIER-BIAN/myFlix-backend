@@ -45,6 +45,7 @@ mongoose.connect(
  );
 */
 
+
 // connect API on Heroku to mongoDB on Atlas
 mongoose.connect(
     // this is set up as ans environment var on Heroku (see settings --> config vars)
@@ -56,7 +57,6 @@ mongoose.connect(
 	useUnifiedTopology: true
     }
 );
-
 
 //---------------------------
 
