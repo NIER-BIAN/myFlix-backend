@@ -113,7 +113,12 @@ const cors = require('cors');
 // only allow reqs from domains that need API. e.g. the app’s own FE that's separately hosted
 
 // (if it's  hosted separately from the API, you’d want to ensure the domain hosting your frontend was granted access. The fewer domains that have access to your API, the more secure it (and the data it provides access to) will be.
-let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'http://testsite.com'];
+let allowedOrigins = [
+    'http://localhost:8080',
+    'http://localhost:1234',
+    'http://testsite.com',
+    'https://niersveryfirstmernproject.netlify.app'
+];
 
 app.use(cors(
 
