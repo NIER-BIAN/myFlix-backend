@@ -15,7 +15,7 @@ const Users = require('./models.js').User;
 
 // Imports: third party
 // The strategy constructor creates an instance of a strategy that can be used with Passport
-// A strategy define how the auth handling process should be handled
+// A strategy defines how the auth handling process should be handled
 
 // main passport library.
 const passport = require('passport');
@@ -55,7 +55,7 @@ passport.use(
 	// Mongoose checks db for user
 	async (username, password, callback) => {
 	    console.log(`Looking for user ${username}.`);
-	    // **NOTE** that the password doesn't get checked here
+	    
 	    await Users.findOne({ username: username })
 	    
 		.then((user) => {
