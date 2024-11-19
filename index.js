@@ -239,29 +239,6 @@ app.post('/users',
 		 });
 });
 
-// Allow users to add a movie to their list of favorites
-// Modifying user info in this way would require a JWT from the client for authorisation
-app.patch('/users/:username/movies/:movieId', passport.authenticate('jwt', { session: false }), async (req, res) => {
-
-    // req.login in auth.js establishes a login session and set up the user object on req.user.
-    if(req.user.username !== req.params.username){
-        return res.status(400).send(`You have to be logged in as ${req.params.username} to make changes to their list of favourite movies. Permission denied`);
-    }
-    
-    await Users.findOneAndUpdate(
-	{ username: req.params.username },
-	// $push adds a new movie ID to the end of the FavoriteMovies array
-	{ $push: { favoriteMovies: req.params.movieId } },
-	{ new: true })
-	.then((updatedUser) => {
-	    res.json(updatedUser);
-	})
-	.catch((err) => {
-	    console.error(err);
-	    res.status(500).send('Error: '  + err);
-	});
-});
-
 //---------------------------
 // READ
 
@@ -397,8 +374,32 @@ app.put('/users/:username',
 		    console.error(err);
 		    res.status(500).send('Error: ' + err);
 		});
+
 	}
 );
+
+// Allow users to add a movie to their list of favorites
+// Modifying user info in this way would require a JWT from the client for authorisation
+app.patch('/users/:username/movies/:movieId', passport.authenticate('jwt', { session: false }), async (req, res) => {
+
+    // req.login in auth.js establishes a login session and set up the user object on req.user.
+    if(req.user.username !== req.params.username){
+        return res.status(400).send(`You have to be logged in as ${req.params.username} to make changes to their list of favourite movies. Permission denied`);
+    }
+    
+    await Users.findOneAndUpdate(
+	{ username: req.params.username },
+	// $push adds a new movie ID to the end of the FavoriteMovies array
+	{ $push: { favoriteMovies: req.params.movieId } },
+	{ new: true })
+	.then((updatedUser) => {
+	    res.json(updatedUser);
+	})
+	.catch((err) => {
+	    console.error(err);
+	    res.status(500).send('Error: '  + err);
+	});
+});
 
 //---------------------------
 // DELETE

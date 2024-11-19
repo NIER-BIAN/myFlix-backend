@@ -30,7 +30,7 @@
             <th>Request body data format</th>
             <th>Response body data format</th>
         </tr>
-        <tr>
+	<tr>
             <td>Create a new user</td>
             <td>/users</td>
             <td>POST</td>
@@ -52,6 +52,41 @@
             </td>
 	</tr>
         <tr>
+            <td>Log a user in</td>
+            <td>/login</td>
+            <td>POST</td>
+            <td>
+	      <code>
+		{
+		"username": "Charlie"
+		}	
+	      </code>
+            </td>
+            <td>
+              <code>
+		{
+		"id": "3",
+		"username": "Charlie",
+		"favouriteMovies": []
+		}
+	      </code>
+            </td>
+	</tr>
+	<tr>
+            <td>Get info on all users</td>
+            <td>/movies</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>A JSON object holding data about all movies.</td>
+        </tr>
+	<tr>
+            <td>Get info on a single user by username</td>
+            <td>/movies</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>A JSON object holding data about all movies.</td>
+        </tr>
+        <tr>
             <td>Get a list of all movies</td>
             <td>/movies</td>
             <td>GET</td>
@@ -61,29 +96,23 @@
         <tr>
             <td>Get data about a single movie by title</td>
             <td>
-	      /movies/Example%20Movie%20Title<br/><br/>
-	      e.g. /movies/Amélie
+	      /movies/{Example%20Movie%20Title}<br/><br/>
+	      e.g. /movies/(500)%20Days%20of%20Summer
 	    </td>
             <td>GET</td>
             <td>None</td>
-            <td>A JSON object holding all data about the target movie "Amélie".
+            <td>A JSON object holding all data about the target movie "(500) Days of Summer".
             </td>
         </tr>
         <tr>
-            <td>Get data about a genre by name of genre</td>
+            <td>Get data about a genre by name</td>
             <td>
 	      /movies/genre/Example%20Genre<br/><br/>
 	      e.g. /movies/genre/Romantic%20Comedy
 	    </td>
             <td>GET</td>
             <td>None</td>
-            <td>
-	      <code>
-		{<br/>
-		"name": "Romantic Comedy",<br/>
-		"description": "Romantic comedies are a subgenre of comedy movies that focus on the romantic relationships between characters. They often involve humorous situations and light-hearted storytelling."<br/>
-		}
-	      </code>
+            <td>A JSON object holding all data about the target genre "Romantic Comedy".
             </td>
         </tr>
         <tr>
@@ -134,7 +163,7 @@
 	      /users/{username}/movies/{Example%20Movie%20Id}<br/><br/>
 	      e.g. /users/Abraham/6685570bf67a085dc3261cd7
 	    </td>
-            <td>POST</td>
+            <td>PUT</td>
 	    <td>None</td>
             <td>A JSON object holding updated info about the user and their favourite movies.</td>
         </tr>
