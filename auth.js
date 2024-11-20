@@ -54,7 +54,7 @@ let generateJWTToken = (user) => {
 	subject: user.username,
 	// expires in 7 days
 	expiresIn: '7d',
-	// algo used to sign / encode teh values of the JWT
+	// algo used to sign / encode the values of the JWT
 	algorithm: 'HS256',
     });
 }
