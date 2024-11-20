@@ -116,7 +116,7 @@ let allowedOrigins = [
     'http://localhost:8080',
     'http://localhost:1234',
     'http://testsite.com',
-    'https://niersveryfirstmernproject.netlify.app'
+    'https://nier-myflix-react-client.netlify.app'
 ];
 
 app.use(cors(
