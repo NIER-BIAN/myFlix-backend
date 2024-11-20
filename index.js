@@ -172,7 +172,7 @@ app.use(express.static('public'));
 
 // documentation served at root route
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/documentation.html');
+    res.sendFile('documentation.html');
 });
 
 //---------------------------
