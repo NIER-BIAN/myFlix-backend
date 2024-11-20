@@ -29,11 +29,10 @@ const Movies = Models.Movie;
 const Users = Models.User;
 
 //---------------------------
-
 // connect to database
 // mongoose can now perform CRUD operations on the docs in myFlixDB from within the REST API
 
-// Dev:
+// Dev (connect local API to local mongoDB):
 /*
 mongoose.connect(
      'mongodb://localhost:27017/myFlixDB',
@@ -46,7 +45,7 @@ mongoose.connect(
 */
 
 
-// connect API on Heroku to mongoDB on Atlas
+// Live (connect API hosted on Heroku to mongoDB hosted on Atlas):
 mongoose.connect(
     // this is set up as ans environment var on Heroku (see settings --> config vars)
     // so that the connection URI isn't exposed via GitHub repo 
@@ -171,13 +170,9 @@ app.use(express.static('public'));
 // “PATH” = endpoint URL the request is targeting.
 // “HANDLER” =  function to be executed when the route is matched. 
 
+// documentation served at root route
 app.get('/', (req, res) => {
-    
-    let responseText = 'Welcome to myFlix!<br>';
-    responseText += `<small>Requested at ${req.requestTime}.</small><br>`;
-    responseText += `<small>URL: ${req.url}.</small><br>`;
-    res.send(responseText);
-    
+    res.sendFile(__dirname + '/documentation.html');
 });
 
 //---------------------------

@@ -2,26 +2,20 @@
 <html>
   <head>
     
+    <link rel="stylesheet" type="text/css" href="documentation.css">
     <title>API Documentation</title>
     
-    <style>
-      table {
-          border-collapse: collapse;
-      }
-      table, th, td {
-	  border: 1px solid black;
-          padding: 8px;
-	  margin: 0 20px 0 20px;
-      }
-      th {
-          background-color: #f2f2f2;
-      }
-    </style>
-
   </head>
 
   <body>
-    <h1>API Documentation</h1>
+    
+    <h1>MyFlix Backend API Documentation</h1>
+
+    <p>The following 12 endpoints provide consumers of this API with access to information about different movies, users, directors, and genres. Only the currently signed-in users will be authorised (via JWT) to view or update information associated with their own account <a href="https://github.com/NIER-BIAN/myFlix-backend" target="_blank">(View source)</a>.</p>
+
+
+    <h3>Endpoints:</h3>
+    
     <table>
         <tr>
             <th>Business Logic</th>
@@ -37,7 +31,8 @@
             <td>
 	      <code>
 		{
-		"username": "Charlie"
+		"username": "Charlie",
+		"password": "ExamplePassword"
 		}	
 	      </code>
             </td>
@@ -46,6 +41,7 @@
 		{
 		"id": "3",
 		"username": "Charlie",
+		"password": "ExamplePassword--HASHED"
 		"favouriteMovies": []
 		}
 	      </code>
@@ -53,20 +49,17 @@
 	</tr>
         <tr>
             <td>Log a user in</td>
-            <td>/login</td>
-            <td>POST</td>
             <td>
-	      <code>
-		{
-		"username": "Charlie"
-		}	
-	      </code>
-            </td>
+	      /login?username={username}&password={password}<br/><br/>
+	      e.g. /login?username=Charlie&password=ExamplePassword</td>
+            <td>POST</td>
+            <td>None</td>
             <td>
               <code>
 		{
 		"id": "3",
 		"username": "Charlie",
+		"password": "ExamplePassword--HASHED"
 		"favouriteMovies": []
 		}
 	      </code>
@@ -74,17 +67,17 @@
 	</tr>
 	<tr>
             <td>Get info on all users</td>
-            <td>/movies</td>
+            <td>/users</td>
             <td>GET</td>
             <td>None</td>
-            <td>A JSON object holding data about all movies.</td>
+            <td>A JSON object holding data about all users.</td>
         </tr>
 	<tr>
             <td>Get info on a single user by username</td>
-            <td>/movies</td>
+            <td>/users/{username}</td>
             <td>GET</td>
             <td>None</td>
-            <td>A JSON object holding data about all movies.</td>
+            <td>A JSON object holding data about the particular user.</td>
         </tr>
         <tr>
             <td>Get a list of all movies</td>
@@ -143,7 +136,8 @@
             <td>
 	      <code>
 		{
-		"username": "Denise"
+		"username": "Denise",
+		"password": "ChangedPassword"
 		}
 	      </code>
             </td>
@@ -152,6 +146,7 @@
 		{
 		_id: ObjectId('6685793cf67a085dc3261cde'),
 		"username": "Denise",
+		"password": "ChangedPassword--HASHED",
 		"favouriteMovies": []
 		}
 	      </code>
