@@ -2,9 +2,7 @@
 
 This project is live on Heroku at https://nier-myflix-backend-63a3c9fa7364.herokuapp.com/, where documentation related to all 12 endpoints are also served.
 
-This repository contains the backend code for a movie database API built with Node.js, Express.js, and MongoDB. This is a RESTful API for accessing a database of movies, genres, directors, and user information. Security is a primary focus, with all passwords encrypted using bcrypt before storage and user authentication implemented using JWT (JSON Web Tokens) with passport-jwt and passport-local for authentication strategies.
-
-Please note that all passwords submitted by users (during registration and password changes) are encrypted prior to being stored.
+This repository contains the backend code for a movie database API built with Node.js, Express.js, and MongoDB. This is a RESTful API for accessing a database of movies, genres, directors, and user information. Security is a primary focus, with all submitted passwords encrypted before storage and user authentication implemented via passport-jwt (using JWTs) and passport-local (using username / password pairs) for authentication strategies.
 
 ## Technologies Used
 
