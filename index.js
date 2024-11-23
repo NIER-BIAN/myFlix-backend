@@ -113,10 +113,10 @@ const cors = require('cors');
 
 // (if it's  hosted separately from the API, you’d want to ensure the domain hosting your frontend was granted access. The fewer domains that have access to your API, the more secure it (and the data it provides access to) will be.
 let allowedOrigins = [
-    'http://localhost:8080',
-    'http://localhost:1234',
-    'http://testsite.com',
-    'https://nier-myflix-react-client.netlify.app'
+    'http://localhost:8080', // postman
+    'http://localhost:1234', // react client (local)
+    'https://nier-myflix-react-client.netlify.app', // react client (live)
+    'http://localhost:4200/' // ng client (local)
 ];
 
 app.use(cors(
