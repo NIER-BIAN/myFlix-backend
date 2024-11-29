@@ -116,7 +116,8 @@ let allowedOrigins = [
     'http://localhost:8080', // postman
     'http://localhost:1234', // react client (local)
     'https://nier-myflix-react-client.netlify.app', // react client (live)
-    'http://localhost:4200' // ng client (local)
+    'http://localhost:4200', // ng client (local)
+    'https://nier-bian.github.io/myflix-angular-client/' // ng client (live)
 ];
 
 app.use(cors(
